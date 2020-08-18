@@ -37,14 +37,14 @@ interface CacheData {
 export function getCacheFilePath(): string {
   if (!cacheFilePath) {
     // 数据缓存的根目录
-    const DATA_DIR = path.join(osenv.home(), '.dwt-driver-matman');
+    const DATA_DIR = path.join(osenv.home(), '.matman-e2e-test');
     fs.ensureDirSync(DATA_DIR);
 
     // 启动数据缓存文件路径
     cacheFilePath = path.join(DATA_DIR, 'testAppData.yml');
     fs.ensureFileSync(cacheFilePath);
 
-    logger.debug(`本地临时缓存目录 DATA_DIR=${DATA_DIR}, cacheFilePath=${cacheFilePath}`);
+    logger.info(`本地临时缓存目录 DATA_DIR=${DATA_DIR}, cacheFilePath=${cacheFilePath}`);
   }
 
   return cacheFilePath;

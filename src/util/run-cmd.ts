@@ -6,11 +6,11 @@ import {
   ExecOptions,
   ChildProcess,
 } from 'child_process';
-import { createDebug, createLogger } from './logger';
+import { createDebug, createLogger,LOG_TAG_NAME } from './logger';
 
 const loggerCmd = {
-  stdout: createDebug('dwt:stdout'),
-  stderr: createDebug('dwt:stderr'),
+  stdout: createDebug(`${LOG_TAG_NAME}:stdout`),
+  stderr: createDebug(`${LOG_TAG_NAME}:stderr`),
 };
 const logger = createLogger('run-cmd');
 
