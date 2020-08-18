@@ -1,0 +1,23 @@
+{
+  "name": "matman-e2e-test",
+  "version": "1.0.0",
+  "description": "matman for e2e test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matmanjs/matman-e2e-test.git"
+  },
+  "keywords": [
+    "e2e",
+    "matman"
+  ],
+  "author": "helinjiang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matmanjs/matman-e2e-test/issues"
+  },
+  "homepage": "https://github.com/matmanjs/matman-e2e-test#readme"
+}
