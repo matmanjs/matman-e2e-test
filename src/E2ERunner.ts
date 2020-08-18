@@ -17,6 +17,8 @@ import {
   StringObject
 } from './types';
 import { getSeqId } from './dwt/business';
+
+import pkgInfo from './util/pkg';
 import { createLogger } from './util/logger';
 import { runByExec } from './util/run-cmd';
 import { findAvailablePort, killPort } from './util/port';
@@ -89,6 +91,7 @@ export default class E2ERunner {
    */
   public async start() {
     logger.info('启动自动化测试...');
+    logger.info(`${pkgInfo.name} V${pkgInfo.version}`);
 
     logger.info(`清理文件输出目录：${this.outputPath}`);
     fse.removeSync(this.outputPath);
