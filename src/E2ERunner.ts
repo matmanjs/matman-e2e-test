@@ -21,7 +21,6 @@ import { createLogger } from './util/logger';
 import { runByExec } from './util/run-cmd';
 import { findAvailablePort, killPort } from './util/port';
 import { checkAndWaitURLAvailable } from './util/base';
-import compress from './util/compress';
 import { clean, saveUsedPid, saveUsedPort } from './dwt/local-cache';
 import { exit } from './dwt/process-handler';
 
@@ -335,9 +334,8 @@ export default class E2ERunner {
     // 缓存一些 e2eRunner 的数据
     fse.outputJsonSync(path.join(this.outputPath, 'e2eRunner.json'), this);
 
-    // 打包产出文件：output.zip，将整个 output 打包，以便在其他场景下使用
-    // 加上 BVT- 前缀是 epc 要求区分不同的流水线，因此也按此规则
-    await compress(this.outputPath, 'BVT-output.zip');
+    // 在停止之前执行
+    await this.runBeforeStop();
 
     // 做最后的清理
     await this.clean();
@@ -348,6 +346,13 @@ export default class E2ERunner {
     await exit(2000);
 
     logger.info('已退出整个流程');
+  }
+
+  /**
+   * 在停止之前执行
+   */
+  public async runBeforeStop() {
+    // do some thing
   }
 
   /**
