@@ -7,7 +7,15 @@ import { ChildProcess, ExecOptions } from 'child_process';
 // @ts-ignore
 import { createE2ECoverage } from 'coverage-istanbul';
 
-import { DWTRunnerConfig, StringObject } from './types';
+import {
+  BuildProjectOpts,
+  E2ERunnerConfig,
+  RunE2ETestOpts,
+  StartMatmanOpts,
+  StartMockstarOpts,
+  StartWhistleOpts,
+  StringObject
+} from './types';
 import { getSeqId } from './dwt/business';
 import { createLogger } from './util/logger';
 import { runByExec } from './util/run-cmd';
@@ -28,34 +36,6 @@ interface ProcessCmd {
   t: number;
 }
 
-interface BuildProjectOpts {
-  cwd?: string;
-}
-
-interface StartMockstarOpts {
-  port?: number;
-  skipInstall?: boolean;
-}
-
-interface StartMatmanOpts {
-  skipInstall?: boolean;
-}
-
-interface RunE2ETestOpts {
-  cwd: string;
-  matmanAppPath: string;
-  mochawesomeJsonFilePath: string;
-  whistlePort?: number;
-  outputPath?: string;
-}
-
-interface StartWhistleOpts {
-  port?: number;
-  useCurrentStartedWhistle?: boolean;
-  forceOverride?: boolean;
-  getWhistleRules: () => { name: string; rules: string };
-}
-
 export default class E2ERunner {
   public outputPath: string;
   public workspacePath: string;
@@ -66,7 +46,7 @@ export default class E2ERunner {
   private readonly cacheProcessArr: ProcessCmd[];
   private readonly startTime: number;
 
-  public constructor(config: DWTRunnerConfig) {
+  public constructor(config: E2ERunnerConfig) {
     if (!config.outputPath) {
       throw new Error(`[DWTRunner] config.outputPath is not exist: ${config.outputPath}`);
     }
@@ -467,6 +447,15 @@ export default class E2ERunner {
   }
 
   /**
+   * 获得缓存数据的子进程列表
+   *
+   * @return {Array}
+   */
+  public getCacheProcessArr(): ProcessCmd[] {
+    return this.cacheProcessArr;
+  }
+
+  /**
    * 获取从开始到现在的耗时，单位为 ms
    *
    * @return {Number}
@@ -502,7 +491,10 @@ async function generateConfigFile(
   ruleContent = `${shouldEnableCapture}\n\n${ruleContent}`;
 
   // 在 devnet 机器中，需要额外配置一个 pac 文件，否则无法直接访问外网
-  // TODO
+  // 自定义修改规则内容
+  if (typeof opts.handleRuleContent === 'function') {
+    ruleContent = opts.handleRuleContent(ruleContent, params.outputPath);
+  }
 
   // 更新
   whistleRules.rules = ruleContent;

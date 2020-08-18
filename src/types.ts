@@ -27,11 +27,40 @@ export interface addOutputDataParams {
   isRunE2ETest?: boolean;
 }
 
-export interface DWTRunnerConfig {
+export interface E2ERunnerConfig {
   outputPath: string;
   workspacePath: string;
   NPM?: string;
   isDev?: boolean;
   isRunUnitTest?: boolean;
   isRunE2ETest?: boolean;
+}
+
+export interface BuildProjectOpts {
+  cwd?: string;
+}
+
+export interface StartMockstarOpts {
+  port?: number;
+  skipInstall?: boolean;
+}
+
+export interface StartMatmanOpts {
+  skipInstall?: boolean;
+}
+
+export interface RunE2ETestOpts {
+  cwd: string;
+  matmanAppPath: string;
+  mochawesomeJsonFilePath: string;
+  whistlePort?: number;
+  outputPath?: string;
+}
+
+export interface StartWhistleOpts {
+  port?: number;
+  useCurrentStartedWhistle?: boolean;
+  forceOverride?: boolean;
+  getWhistleRules: () => { name: string; rules: string };
+  handleRuleContent?: (ruleContent: string, outputPath: string) => string;
 }
