@@ -211,10 +211,6 @@ export default class E2ERunner {
       outputPath: this.outputPath,
     });
 
-    // // 设置并强制使用指定 whistle 配置规则
-    // await this.use();
-    // logger.info(`whistle 处理完成，耗时 ${Date.now() - t} ms !`);
-
     // whistle 端口，其中来自环境变量的优先级最高，因为在自动化测试时可以动态设置
     let whistlePort = process.env[DWT_PROCESS_ENV.WHISTLE_PORT] || opts?.port;
 
@@ -234,10 +230,12 @@ export default class E2ERunner {
     // 需要追加一个 seqId，为本次 whistle 生成唯一的命名空间
     const processKey = `${encodeURIComponent('whistle-start')}-${this.seqId}`;
 
+    const whistleCustomNamespaceArgs = opts.useCurrentStartedWhistle ? '' : `-S ${processKey}`;
+
     // whistle: 启动
     await this.runByExec(
       'whistle-start',
-      `w2 start -S ${processKey} -p ${whistlePort}`,
+      `w2 start ${whistleCustomNamespaceArgs} -p ${whistlePort}`,
       {},
       data => data && data.indexOf(`127.0.0.1:${whistlePort}`) > -1,
     );
@@ -255,10 +253,7 @@ export default class E2ERunner {
 
     // 使用 whistle 的规则配置文件
     // w2 use xx/.whistle.js -S whistle-e2etest --force
-    let useCmd = `w2 use ${ruleConfigFile}`;
-    if (!opts.useCurrentStartedWhistle) {
-      useCmd = `${useCmd} -S ${processKey}`;
-    }
+    let useCmd = `w2 use ${ruleConfigFile} ${whistleCustomNamespaceArgs}`;
 
     if (opts.forceOverride) {
       useCmd = `${useCmd} --force`;
