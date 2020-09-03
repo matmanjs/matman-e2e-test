@@ -91,7 +91,7 @@ export function findAvailablePort(
  * @author linjianghe
  */
 export async function killPort(port: number | number[]): Promise<void> {
-  logger.debug(`killPort:${port}`);
+  logger.info(`killPort: ${port}`);
 
   const killOnePort = (port: number) => new Promise((resolve, reject) => {
     logger.debug(`killOnePort:${port}`);

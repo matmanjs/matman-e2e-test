@@ -38,6 +38,9 @@ export interface E2ERunnerConfig {
 
 export interface BuildProjectOpts {
   cwd?: string;
+  port?: number;
+  usePort?: boolean;
+  customCloseHandler?: (data: any) => boolean,
 }
 
 export interface StartMockstarOpts {
