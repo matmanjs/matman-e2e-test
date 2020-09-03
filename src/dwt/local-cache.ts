@@ -152,11 +152,11 @@ export async function clean(seqId: string): Promise<void> {
   // 同时检查：两个小时过期，避免出现历史未成功清理产生的资源占用
   const EXPIRE = 2 * 60 * 60 * 1000;
   const nowTimestamp = Date.now();
-  Object.keys(cacheData).forEach(async (key) => {
+  for (const key of Object.keys(cacheData)) {
     if (nowTimestamp - cacheData[key].t > EXPIRE) {
       await cleanTargetCacheItem(key, cacheData);
     }
-  });
+  }
 }
 
 /**
