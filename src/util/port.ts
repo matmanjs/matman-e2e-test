@@ -94,14 +94,14 @@ export async function killPort(port: number | number[]): Promise<void> {
   logger.info(`killPort: ${port}`);
 
   const killOnePort = (port: number) => new Promise((resolve, reject) => {
-    logger.debug(`killOnePort:${port}`);
+    logger.info(`killOnePort: ${port}`);
 
     // const command = `ps -ef | grep "node" | grep ${port} | grep -v grep | awk '{print $2}' | xargs kill -9`;
     const command = `lsof -i:${port} | grep ${port}  | grep -v grep | awk '{print $2}' | xargs kill -9`;
 
     runByExec(command)
       .then((data) => {
-        logger.debug(`kill port=${port} success!`);
+        logger.info(`kill port=${port} success!`);
         resolve();
       })
       .catch((err) => {
@@ -112,11 +112,11 @@ export async function killPort(port: number | number[]): Promise<void> {
 
   const portList = Array.isArray(port) ? port : [port];
 
-  portList.forEach(async (item) => {
+  for (const item of portList) {
     try {
       await killOnePort(item);
     } catch (e) {
       logger.error(`killOnePort port=${item} fail!`);
     }
-  });
+  }
 }
