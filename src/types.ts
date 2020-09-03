@@ -40,7 +40,7 @@ export interface BuildProjectOpts {
   cwd?: string;
   port?: number;
   usePort?: boolean;
-  customCloseHandler?: (data: any) => boolean,
+  checkIfBuildCompleted?: (stdoutData: string) => boolean,
 }
 
 export interface StartMockstarOpts {

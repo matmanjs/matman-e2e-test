@@ -187,7 +187,7 @@ export default class E2ERunner {
       );
     }
 
-    await this.runByExec('project-build', cmdStr, { cwd: opts?.cwd || this.workspacePath }, opts?.customCloseHandler);
+    await this.runByExec('project-build', cmdStr, { cwd: opts?.cwd || this.workspacePath }, opts?.checkIfBuildCompleted);
 
     return projectPort;
   }
