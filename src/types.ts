@@ -30,7 +30,7 @@ export interface addOutputDataParams {
 export interface E2ERunnerConfig {
   outputPath: string;
   workspacePath: string;
-  NPM?: string;
+  npmRunner?: string;
   isDev?: boolean;
   isRunUnitTest?: boolean;
   isRunE2ETest?: boolean;

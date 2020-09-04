@@ -23,6 +23,7 @@ import { createLogger } from './util/logger';
 import { runByExec } from './util/run-cmd';
 import { findAvailablePort, killPort } from './util/port';
 import { checkAndWaitURLAvailable, getFromStrOrFunc } from './util/base';
+import { getNpmRunner } from './util/npm';
 import { clean, saveUsedPid, saveUsedPort } from './dwt/local-cache';
 import { exit } from './dwt/process-handler';
 
@@ -42,7 +43,7 @@ export default class E2ERunner {
   public workspacePath: string;
   public seqId: string;
   public isDev: boolean;
-  public NPM: string;
+  public npmRunner?: string;
   private cacheData: StringObject<unknown>;
   private readonly cacheProcessArr: ProcessCmd[];
   private readonly startTime: number;
@@ -66,8 +67,8 @@ export default class E2ERunner {
     // 是否为开发者模式
     this.isDev = !!config.isDev;
 
-    // 使用 npm/tnpm/cnpm，默认为 npm
-    this.NPM = config.NPM || 'npm';
+    // 使用 npm/tnpm/cnpm，若不传递，则会自动寻找
+    this.npmRunner = config.npmRunner;
 
     // 自动生成的唯一ID，用于区别不同批次的流程，
     // 尤其是有多个流程在同一个测试机中运行的时候，如果不做区分，则可能会有相互影响
@@ -95,6 +96,13 @@ export default class E2ERunner {
 
     logger.info(`清理文件输出目录：${this.outputPath}`);
     fse.removeSync(this.outputPath);
+
+    // 获取 npmRunner 值
+    if (!this.npmRunner) {
+      this.npmRunner = await getNpmRunner();
+    }
+
+    logger.info(`使用：${this.npmRunner}`);
 
     await this.clean();
   }
@@ -202,7 +210,7 @@ export default class E2ERunner {
     // 默认情况下需要先安装依赖，但也可以指定跳过该步骤
     if (!opts?.skipInstall) {
       // mockstar: 安装依赖
-      await this.runByExec('mockstar-install', `${this.NPM} install`, { cwd });
+      await this.runByExec('mockstar-install', `${this.npmRunner || 'npm'} install`, { cwd });
     }
 
     // mockstar 端口，其中来自环境变量的优先级最高，因为在自动化测试时可以动态设置
@@ -317,7 +325,7 @@ export default class E2ERunner {
     // 默认情况下需要先安装依赖，但也可以指定跳过该步骤
     if (!opts?.skipInstall) {
       // mockstar: 安装依赖
-      await this.runByExec('matman-install', `${this.NPM} install`, { cwd });
+      await this.runByExec('matman-install', `${this.npmRunner || 'npm'} install`, { cwd });
     }
   }
 
