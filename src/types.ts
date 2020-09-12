@@ -67,3 +67,7 @@ export interface StartWhistleOpts {
   getWhistleRules: () => { name: string; rules: string };
   handleRuleContent?: (ruleContent: string, outputPath: string) => string;
 }
+
+export interface StopOpts {
+  skipExit?: boolean;
+}

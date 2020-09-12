@@ -14,6 +14,7 @@ import {
   StartMatmanOpts,
   StartMockstarOpts,
   StartWhistleOpts,
+  StopOpts,
   StringObject
 } from './types';
 import { getSeqId } from './dwt/business';
@@ -378,7 +379,7 @@ export default class E2ERunner {
   /**
    * 停止
    */
-  public async stop() {
+  public async stop(opts?: StopOpts) {
     // 缓存一些 e2eRunner 的数据
     fse.outputJsonSync(path.join(this.outputPath, 'e2eRunner.json'), this);
 
@@ -390,8 +391,11 @@ export default class E2ERunner {
 
     logger.info(`自动化测试总流程已经花费了 ${this.getTotalCost() / 1000}s，接下来将要退出整个流程...`);
 
-    // 强制结束所有流程
-    await exit(2000);
+    // 默认情况，会强制结束所有流程，但是有些场景下，会导致后续行为出错，
+    // 此时可以配置 skipExit = false 来阻止自动强制结束流程
+    if (!opts?.skipExit) {
+      await exit(2000);
+    }
 
     logger.info('已退出整个流程');
   }
