@@ -26,6 +26,8 @@
     "@babel/parser": "^7.10.2",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
+    "cli-table3": "^0.6.0",
+    "colors": "^1.4.0",
     "compressing": "^1.5.1",
     "coverage-istanbul": "^1.0.0",
     "debug": "^4.1.1",

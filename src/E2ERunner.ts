@@ -1,6 +1,8 @@
 import path from 'path';
 import fse from 'fs-extra';
 import _ from 'lodash';
+import CliTable3 from 'cli-table3';
+import colors from 'colors/safe';
 
 import { ChildProcess, ExecOptions } from 'child_process';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -445,7 +447,9 @@ export default class E2ERunner {
       dir: reporterDir,
     })
       .then((data: any) => {
-        logger.info('生成端对端自动化测试报告成功！', JSON.stringify(data));
+        logger.info(`生成端对端自动化测试报告成功！可以在此查看更多内容： ${data.reporterDir}`);
+        // 打印结果
+        showCoverageResultUseTable(data);
       })
       .catch((err: Error) => {
         logger.error(`生成端对端自动化测试报告失败！err: ${err?.message || err}`);
@@ -569,3 +573,25 @@ async function generateConfigFile(
 
   return ruleConfigFile;
 }
+
+/**
+ * 打印覆盖率信息
+ */
+const showCoverageResultUseTable = (coverageResult: any): void => {
+  const cliTable3 = new CliTable3({
+    head: [],
+  });
+
+  cliTable3.push([{
+    colSpan: 2,
+    content: colors.cyan('E2E/UI 自动化测试覆盖率'),
+    hAlign: 'center',
+  }]);
+
+  cliTable3.push(['lines', colors.blue(coverageResult?.data?.lines)]);
+  cliTable3.push(['statements', coverageResult?.data?.statements]);
+  cliTable3.push(['functions', coverageResult?.data?.functions]);
+  cliTable3.push(['branches', coverageResult?.data?.branches]);
+
+  console.log(cliTable3.toString());
+};
