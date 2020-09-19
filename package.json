@@ -1,6 +1,6 @@
 {
   "name": "matman-e2e-test",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "matman for e2e test",
   "main": "lib/index.js",
   "scripts": {
@@ -14,7 +14,8 @@
   },
   "keywords": [
     "e2e",
-    "matman"
+    "matman",
+    "e2e-test"
   ],
   "author": "helinjiang",
   "license": "MIT",
