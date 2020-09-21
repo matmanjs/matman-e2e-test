@@ -1,6 +1,6 @@
 {
   "name": "matman-e2e-test",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "matman for e2e test",
   "main": "lib/index.js",
   "scripts": {
@@ -24,13 +24,12 @@
   },
   "homepage": "https://github.com/matmanjs/matman-e2e-test#readme",
   "dependencies": {
-    "@babel/parser": "^7.10.2",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "cli-table3": "^0.6.0",
     "colors": "^1.4.0",
     "compressing": "^1.5.1",
-    "coverage-istanbul": "^1.0.0",
+    "coverage-istanbul": "^1.1.0",
     "debug": "^4.1.1",
     "ejs": "^3.1.3",
     "fs-extra": "^9.0.0",
@@ -41,21 +40,22 @@
     "uuid": "^8.1.0"
   },
   "devDependencies": {
-    "@babel/types": "^7.10.2",
+    "@babel/parser": "^7.11.5",
+    "@babel/types": "^7.11.5",
     "@types/cheerio": "^0.22.18",
     "@types/debug": "^4.1.5",
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.1",
     "@types/glob": "^7.1.1",
     "@types/js-yaml": "^3.12.4",
-    "@types/lodash": "^4.14.153",
-    "@types/node": "^14.0.5",
+    "@types/lodash": "^4.14.161",
+    "@types/node": "^14.11.1",
     "@types/osenv": "^0.1.0",
     "@types/uuid": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^3.7.0",
-    "@typescript-eslint/parser": "^3.7.0",
-    "eslint": "^7.5.0",
-    "prettier": "^2.0.5",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "eslint": "^7.9.0",
+    "prettier": "^2.1.2",
     "typescript": "^3.9.3"
   }
 }
