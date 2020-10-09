@@ -5,8 +5,6 @@ import CliTable3 from 'cli-table3';
 import colors from 'colors/safe';
 
 import { ChildProcess, ExecOptions } from 'child_process';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { createE2ECoverage } from 'coverage-istanbul';
 
 import {
@@ -95,7 +93,7 @@ export default class E2ERunner {
    */
   public async start() {
     logger.info('启动自动化测试...');
-    logger.info(`${pkgInfo.name} V${pkgInfo.version}`);
+    logger.info(this.getPkgMsgToShow());
 
     logger.info(`清理文件输出目录：${this.outputPath}`);
     fse.removeSync(this.outputPath);
@@ -325,6 +323,9 @@ export default class E2ERunner {
    * @param opts
    */
   public async startMatman(cwd: string, opts?: StartMatmanOpts): Promise<void> {
+    // 清理 matman-app/build 目录文件，避免旧文件干扰
+    fse.removeSync(path.join(cwd, 'build'));
+
     // 默认情况下需要先安装依赖，但也可以指定跳过该步骤
     if (!opts?.skipInstall) {
       // mockstar: 安装依赖
@@ -523,6 +524,15 @@ export default class E2ERunner {
    */
   public getTotalCost(): number {
     return Date.now() - this.startTime;
+  }
+
+  /**
+   * 获得依赖包信息
+   *
+   * @return {String}
+   */
+  public getPkgMsgToShow(): string {
+    return `${pkgInfo.name} v${pkgInfo.version}`;
   }
 }
 
