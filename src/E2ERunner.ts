@@ -93,7 +93,7 @@ export default class E2ERunner {
    */
   public async start() {
     logger.info('启动自动化测试...');
-    logger.info(`${pkgInfo.name} v${pkgInfo.version}`);
+    logger.info(this.getPkgMsgToShow());
 
     logger.info(`清理文件输出目录：${this.outputPath}`);
     fse.removeSync(this.outputPath);
@@ -524,6 +524,15 @@ export default class E2ERunner {
    */
   public getTotalCost(): number {
     return Date.now() - this.startTime;
+  }
+
+  /**
+   * 获得依赖包信息
+   *
+   * @return {String}
+   */
+  public getPkgMsgToShow(): string {
+    return `${pkgInfo.name} v${pkgInfo.version}`;
   }
 }
 
