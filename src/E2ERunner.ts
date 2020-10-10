@@ -355,6 +355,13 @@ export default class E2ERunner {
       'e2e-test-run',
       command,
       { cwd: opts?.cwd || this.workspacePath },
+      (data) => {
+        // 追加一个判断，在测试用例执行完成之后就强制停止，否则会在出错的时候卡住
+        // Mocha 依赖 mochawesome
+        // Jest 依赖 jest-matman-reporter
+        // TODO 此处还需要进一步优化，也可以考虑一定时间没有打印日志则直接关闭
+        return data && (data.indexOf('[mochawesome] Report HTML saved to ') > -1 || data.indexOf('reporter is created on:') > -1);
+      }
     );
 
     // 处理覆盖率
